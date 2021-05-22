@@ -2,8 +2,9 @@ import time
 import pyupbit
 import datetime
 
-access = "your-access"
-secret = "your-secret"
+access = "ikNYREgNJxbwtOZEIUlMk63rV3q5EzGrJnSjRxSv"
+secret = "7vkwgHhrbHHIOgCqTBAx6J6OcWSjw7if3goAUsad"
+k_value = 0.65
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -40,27 +41,30 @@ def get_current_price(ticker):
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
+print(upbit.get_balance("KRW-XRP"))     # KRW-XRP 조회
+print(upbit.get_balance("KRW-BTT"))     # KRW-XRP 조회
+print(upbit.get_balance("KRW"))         # 보유 현금 조회
 print("autotrade start")
 
 # 자동매매 시작
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-BTC")
+        start_time = get_start_time("KRW-XRP")
         end_time = start_time + datetime.timedelta(days=1)
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-BTC", 0.5)
-            ma15 = get_ma15("KRW-BTC")
-            current_price = get_current_price("KRW-BTC")
+            target_price = get_target_price("KRW-XRP", k_value)
+            ma15 = get_ma15("KRW-XRP")
+            current_price = get_current_price("KRW-XRP")
             if target_price < current_price and ma15 < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    upbit.buy_market_order("KRW-BTC", krw*0.9995)
+                    upbit.buy_market_order("KRW-XRP", krw*0.9995)
         else:
-            btc = get_balance("BTC")
+            btc = get_balance("XRP")
             if btc > 0.00008:
-                upbit.sell_market_order("KRW-BTC", btc*0.9995)
+                upbit.sell_market_order("KRW-XRP", btc*0.9995)
         time.sleep(1)
     except Exception as e:
         print(e)
