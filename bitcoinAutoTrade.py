@@ -4,7 +4,7 @@ import datetime
 
 access = "ikNYREgNJxbwtOZEIUlMk63rV3q5EzGrJnSjRxSv"
 secret = "7vkwgHhrbHHIOgCqTBAx6J6OcWSjw7if3goAUsad"
-k_value = 0.65
+k_value = 0.6
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
